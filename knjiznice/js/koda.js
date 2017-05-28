@@ -72,11 +72,8 @@ function pridobiPodatke(){
                     success: function (visina) {
                         $("#visinaU").val(visina[0].height);
                         $("#tezaU").val(teza[0].weight);
-
-						BMI = parseFloat(teza[0].weight) / (parseFloat(visina[0].height) * parseFloat(visina[0].height) / 10000);
-						BMI = BMI.toFixed(2);
 						
-						narisiGraf(BMI);
+						narisiGraf(parseFloat(visina[0].height), parseFloat(teza[0].weight));
                     },
 	            error: function(err) {
 	            	$("#obvestilo-id").append("<span class='obvestilo label " +
@@ -100,6 +97,11 @@ function generirajPodatke1to3() {
     generirajPodatke(0);
     generirajPodatke(1);
     generirajPodatke(2);
+}
+
+if (first_open) {
+	generirajPodatke1to3();
+	first_open = false;
 }
 
 function prikazi(stPacienta) {
@@ -169,9 +171,11 @@ function generirajPodatke(stPacienta) {
 	            data: JSON.stringify(partyData),
 	            success: function (party) {
 	                if (party.action == 'CREATE') {
+	                	if (first_open) {
 	                    $("#obvestilo-id").append("<span class='obvestilo " +
                       "label label-success'>Ustvarjen nov uporabnik!<br>'" +
                       ehrId + "'.</span><br><br>");
+	                	}
                       
                       if (stPacienta == 0) {
                       	meritve(ehrId, "2003-03-16T07:17", "175", "70", "37", "110", "75", "98");
@@ -197,8 +201,12 @@ function generirajPodatke(stPacienta) {
   return ehrId;
 }
 
-function narisiGraf(bmi)  {
+function narisiGraf(visina, teza)  {
 	$("#fillgauge1").empty();
+	
+	console.log(teza + " in " + visina);
+	bmi = teza / (visina * visina / 10000);
+	bmi = bmi.toFixed(2);
 
     var options = liquidFillGaugeDefaultSettings();
     options.displayPercent = false;
@@ -257,9 +265,4 @@ function meritve(ehrId, datumInUra, telesnaVisina, telesnaTeza, telesnaTemperatu
 	    }
 	});
     
-}
-
-if (first_open) {
-	generirajPodatke1to3();
-	first_open = false;
 }
