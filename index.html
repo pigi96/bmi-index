@@ -5,11 +5,13 @@
   <title>eZdravje :: 4. DN :: OIS 2016/2017</title>
   <link href="knjiznice/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {padding-top: 70px;}
+       body {padding-top: 70px;}
   </style>
   <script src="knjiznice/js/jquery-2.2.3.min.js"></script>
   <script src="knjiznice/js/bootstrap.min.js"></script>
   <script src="knjiznice/js/koda.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+  <script src="knjiznice/js/liquidFillGauge.js" language="JavaScript"></script>
 </head>
 <body>
 
@@ -22,14 +24,14 @@
           <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
         <!-- ZAČETEK: Ime vaše aplikacije -->
-        <a class="navbar-brand" href="index.html">{ime vaše aplikacije}</a>
+        <a class="navbar-brand" href="index.html">BMI online</a>
         <!-- KONEC: Ime vaše aplikacije -->
       </div>
       <div class="collapse navbar-collapse" id="menujska-vrstica">
         <ul class="nav navbar-nav">
           <li><a href="opis.html">Opis ideje</a></li>
           <li><a href="nacrt.html">Načrt informacijske rešitve</a></li>
-          <li><a href="#">Generiranje podatkov</a></li>
+          <li><a href="javascript:generirajPodatke1to3()">Generiranje podatkov</a></li>
         </ul>
       </div>
     </div>
@@ -39,10 +41,65 @@
   <!-- ZAČETEK: Vsebina aplikacije -->
   <div class="container">
     <div class="row">
-      <div class="col-lg-12 text-center">
-        <p class="lead"><strong>TO-DO</strong>: Na tem mestu implementirajte vašo aplikacijo.</p>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="ustvari-uporabnika">
+              <b>Podatki uporabnika</b>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="podatki-uporabnika">
+              <span class="label label-default">Ime</span><input id="imeU" type="text" class="form-control input-mini" placeholder="Matko"/>
+              <span class="label label-default">Priimek</span><input id="priimekU" type="text" class="form-control input-mini" placeholder="Dolenjc"/>
+              <span class="label label-default">Teža (kg)</span><input id="tezaU" type="text" class="form-control input-mini" placeholder="70"/>
+              <span class="label label-default">Višina (cm)</span><input id="visinaU" type="text" class="form-control input-mini" placeholder="180"/>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="uporabniki">
+              <b>Obstojeci uporabniki: </b>
+              <button type="button" class="btn" onclick="prikazi(0)" style="background-color:gray;color:white" >Frenk Kafe</button>
+              <button type="button" class="btn" onclick="prikazi(1)" style="background-color:gray;color:white" >Angelca Buteljko</button>
+              <button type="button" class="btn" onclick="prikazi(2)" style="background-color:gray;color:white" >Gatis Kandis</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="ehr-id">
+              <span class="label label-default">EHR ID</span><input id="EHR-ID" type="text" class="form-control input-mini" placeholder="0b4273be-9fd8-4542-8cb0-ea4b53b6c457"/>
+              <button type="button" class="btn btn-primary btn-xs" onclick="pridobiPodatke()">Poizveduj rezultate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="obvestila">
+              <b>Obvestila</b>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="informacije-obvestil" style="height: 400px; overflow-y: scroll">
+			        <span id="obvestilo-id"></span>
+			      </div>
+          </div>
       </div>
     </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+          <svg id="fillgauge1" class="aGraph"></svg>
+          <div id="datum"></div>
+          <img src="BMI_Chart.GIF" width="500"></img>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+                      <a class="twitter-timeline"  href="https://twitter.com/hashtag/zdravje" data-widget-id="868863860366872578">#zdravje Tweets</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
+      </div>
   </div>
   <!-- KONEC: Vsebina aplikacije -->
 
