@@ -10,6 +10,7 @@ var valueEHRID = ["", "", ""];
 var BMI = 0;
 
 var first_open = true;
+var count = 0;
 
 /**
  * Prijava v sistem z privzetim uporabnikom za predmet OIS in pridobitev
@@ -101,7 +102,6 @@ function generirajPodatke1to3() {
 
 if (first_open) {
 	generirajPodatke1to3();
-	first_open = false;
 }
 
 function prikazi(stPacienta) {
@@ -171,11 +171,12 @@ function generirajPodatke(stPacienta) {
 	            data: JSON.stringify(partyData),
 	            success: function (party) {
 	                if (party.action == 'CREATE') {
-	                	if (first_open) {
+	                	count++;
+	                	if (!first_open) {
 	                    $("#obvestilo-id").append("<span class='obvestilo " +
                       "label label-success'>Ustvarjen nov uporabnik!<br>'" +
-                      ehrId + "'.</span><br><br>");
-	                	}
+                      ehrId + "'.</span><br><br>"); 
+	                	} if (count == 3) {count = 4; first_open = false;}
                       
                       if (stPacienta == 0) {
                       	meritve(ehrId, "2003-03-16T07:17", "175", "70", "37", "110", "75", "98");
@@ -204,7 +205,6 @@ function generirajPodatke(stPacienta) {
 function narisiGraf(visina, teza)  {
 	$("#fillgauge1").empty();
 	
-	console.log(teza + " in " + visina);
 	bmi = teza / (visina * visina / 10000);
 	bmi = bmi.toFixed(2);
 
